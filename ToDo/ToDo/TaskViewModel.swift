@@ -2,18 +2,46 @@
 //  TaskViewModel.swift
 //  ToDo
 //
-//  Created by Heath Johnson on 3/21/25.
+//  Created by Heath Johnson on 3/28/25.
 //
 
 import SwiftUI
 import SwiftData
 
 
-class TaskViewModel: ObservableObject {
-    @Environment(\.modelContext) private var modelContext
-    @Published var tasks: [Task] = []
+@Model
+class Task {
+    var id: String = UUID().uuidString
+    var title: String
+    var descriptor: String
+    var dueDate: Date
+    var priority: String
+    var isCompleted: Bool
+    var location: TaskLocation?
     
-    init() {
+    init(title: String, descriptor: String, dueDate: Date, priority: String, isCompleted: Bool = false, location: TaskLocation? = nil) {
+        self.title = title
+        self.descriptor = descriptor
+        self.dueDate = dueDate
+        self.priority = priority
+        self.isCompleted = isCompleted
+        self.location = location
+    }
+}
+
+struct TaskLocation: Codable, Identifiable {
+    var id: String = UUID().uuidString
+    var latitude: Double
+    var longitude: Double
+}
+
+// ViewModel
+class TaskViewModel: ObservableObject {
+    @Published var tasks: [Task] = []
+    private var modelContext: ModelContext
+    
+    init(modelContext: ModelContext) {
+        self.modelContext = modelContext
         fetchTasks()
     }
     
@@ -26,8 +54,8 @@ class TaskViewModel: ObservableObject {
         }
     }
     
-    func addTask(title: String, description: String, dueDate: Date, priority: String, location: TaskLocation?) {
-        let newTask = Task(title: title, description: description, dueDate: dueDate, priority: priority, isCompleted: false, location: location)
+    func addTask(title: String, descriptor: String, dueDate: Date, priority: String, location: TaskLocation?) {
+        let newTask = Task(title: title, descriptor: descriptor, dueDate: dueDate, priority: priority, isCompleted: false, location: location)
         modelContext.insert(newTask)
         fetchTasks()
     }
