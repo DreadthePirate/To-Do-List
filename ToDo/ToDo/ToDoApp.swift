@@ -2,8 +2,7 @@
 //  ToDoApp.swift
 //  ToDo
 //
-//  Created by Heath Johnson on 3/21/25.
-//
+
 
 import SwiftUI
 import SwiftData

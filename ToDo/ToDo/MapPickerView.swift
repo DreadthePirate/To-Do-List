@@ -2,8 +2,6 @@
 //  MapPickerView.swift
 //  ToDo
 //
-//  Created by Heath Johnson on 3/28/25.
-//
 
 import SwiftUI
 import MapKit
